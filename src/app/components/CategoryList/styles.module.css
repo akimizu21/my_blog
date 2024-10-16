@@ -1,0 +1,26 @@
+.title {
+  text-align: center;
+}
+
+.category {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 128px;
+}
+
+.categoryList {
+  cursor: pointer;
+  border-bottom: 1px solid #000;
+  font-weight: bold;
+}
+
+.categoryList:hover{
+  color: #ec9328;
+  border-bottom: 1px solid #ec9328;
+}
+
+.active{
+  color: #ec9328;
+  border-bottom: 1px solid #ec9328;
+}

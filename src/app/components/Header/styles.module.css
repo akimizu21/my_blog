@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  margin: 0 0 0 64px;
+}
+
+.image {
+  width: 280px;
+  height: 120px;
+}
+
+.nav {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin-right: 64px;
+}
+
+.navList {
+  cursor: pointer;
+}
+
+.navList:hover {
+  border-bottom: 1px solid #000;
+}
+
