@@ -55,6 +55,43 @@ const Home = () =>  {
       {/* New表示領域 */}
       <section>
         <h2 className={styles.commonArea}>New</h2>
+        <div className={styles.newArea}>
+          <div className={styles.newContesnts}>
+            <h3 className={styles.title}>新着記事</h3>
+            <Image src={localImage} alt="Contents Image" className={styles.newImage}/>
+            <p className={styles.newTitle}>新着記事</p>
+            <p className={styles.newText}>テキスト テキスト テキスト テキスト テキスト テキスト テキスト </p>
+          </div>
+          <div className={styles.newpickupArea}>
+            <div className={styles.newpickupTitle}>
+              <h3 className={styles.title}>新着</h3>
+              <h3 className={styles.title}>おすすめ記事</h3>
+            </div>
+            <div>
+              <div className={styles.contents}>
+                <div className={styles.contentsInfo}>
+                  <p>2024-10-19</p>
+                  <p>お金</p>
+                </div>
+                <p className={styles.contentsTitle}>新着記事です 新着記事です 新着記事です 新着記事です 新着記事です 新着記事です </p>
+              </div>
+              <div className={styles.contents}>
+                <div className={styles.contentsInfo}>
+                  <p>2024-10-19</p>
+                  <p>お金</p>
+                </div>
+                <p className={styles.contentsTitle}>新着記事です 新着記事です 新着記事です 新着記事です 新着記事です 新着記事です </p>
+              </div>
+              <div className={styles.contents}>
+                <div className={styles.contentsInfo}>
+                  <p>2024-10-19</p>
+                  <p>お金</p>
+                </div>
+                <p className={styles.contentsTitle}>新着記事です 新着記事です 新着記事です 新着記事です 新着記事です 新着記事です </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );
