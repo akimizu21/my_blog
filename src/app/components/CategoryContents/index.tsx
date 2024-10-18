@@ -20,15 +20,15 @@ interface Props {
       text: string;
     }[];
   }[];
-  selectedTab: string;
+  contentsSelectedTab: string;
 }
 
 export const CategoryContents = (props: Props) => {
-  const {categorys, selectedTab} = props;
+  const {categorys, contentsSelectedTab} = props;
   return (
     <>
       {categorys.map(category => 
-        category.name === selectedTab && (
+        category.name === contentsSelectedTab && (
           <div key={category.name} className={styles.contents}>
             {category.contents.map((content) => (
               <div key={content.id} className={styles.contentsContainer}>
