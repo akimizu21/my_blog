@@ -5,7 +5,7 @@
 /**
  * INIT_CATEGORYSの型定義
  */
-export interface Categorys {
+export interface Contents {
   name: string;
   contents: {
     id: number;
@@ -15,7 +15,7 @@ export interface Categorys {
 }
 
 
-export const INIT_CATEGORYS: Categorys[] = [
+export const INIT_CONTENTS: Contents[] = [
   {
     name: "お金",
     contents: [

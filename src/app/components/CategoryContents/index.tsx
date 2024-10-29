@@ -34,7 +34,12 @@ export const CategoryContents = (props: Props) => {
               <div key={content.id} className={styles.contentsContainer}>
                 <div className={styles.imageArea}>
                   <p className={styles.contentsTag}>{category.name}</p>
-                  <Image src={localImage} alt="Contents Image" className={styles.contentsImage} />
+                  <Image 
+                    src={localImage} 
+                    alt="Contents Image"
+                    layout="responsive"
+                    className={styles.contentsImage} 
+                  />
                 </div>
                 <div>
                   <p className={styles.title}>{content.title}</p>

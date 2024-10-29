@@ -5,7 +5,7 @@ import Image from "next/image";
 /**
  * data
  */
-import { INIT_CATEGORYS } from "./constants/data";
+import { INIT_CONTENTS } from "./constants/data";
 /**
  * components
  */
@@ -22,9 +22,63 @@ import styles from "./page.module.css"
 import localImage from "../../public/main_image.png"
 
 const Home = () =>  {
-  const [categorys, setCategorys] = React.useState(INIT_CATEGORYS);
+  const [addInputTitle, setAddInputTitle] = React.useState('');
+  const [addInputText, setAddInputText] = React.useState('');
+  const [contentsSelectedLabel, setContentsSelectedLabel] = React.useState("お金");
+  const [contentsList, setContentsList] = React.useState(INIT_CONTENTS);
   const [contentsSelectedTab, setContentsSelectedTab] = React.useState("お金");
   const [newSelectedTab, setNewSElectedTab] = React.useState("新着")
+
+  /**
+   * addInputTitle更新処理
+   * @param e 
+   */
+  const onChangeAddInputTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddInputTitle(e.target.value);
+  }
+
+  /**
+   * ContentsSelectedLabel更新処理
+   * @param e 
+   */
+  const onChangeContentsSelectedLabel = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setContentsSelectedLabel(e.target.value);
+  }
+
+  /**
+   * addInputText更新処理
+   * @param e 
+   */
+  const onChangeAddInputText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddInputText(e.target.value);
+  }
+
+  /**
+   * contents追加処理
+   */
+  const handleAddContents = () => {
+    if(addInputTitle !== "" && addInputText !== "") {
+      const newContent = {
+        id: Date.now(),
+        title: addInputTitle,
+        text: addInputText,
+      };
+  
+      const updatedContentsList = contentsList.map((category) => {
+        if (category.name === contentsSelectedLabel) {
+          return {
+            ...category,
+            contents: [...category.contents, newContent]
+          };
+        }
+        return category;
+      });
+  
+      setContentsList(updatedContentsList);
+      setAddInputTitle('');
+      setAddInputText('');
+    }
+  }
 
   return (
     <>
@@ -39,6 +93,42 @@ const Home = () =>  {
           className={styles.image}
           />
       </div>
+      {/* 記事追加領域 */}
+      <section className={styles.commonArea}>
+        <div className={styles.addContents}>
+          <div className={styles.inputArea}>
+            <label>記事タイトル</label>
+            <input 
+              type="text" 
+              value={addInputTitle}
+              onChange={onChangeAddInputTitle}
+              className={styles.addForm}></input> 
+          </div>
+          <div className={styles.inputArea}>
+            <label>カテゴリー</label>
+            <select 
+              value={contentsSelectedLabel}
+              onChange={onChangeContentsSelectedLabel}
+              className={styles.addForm}
+            >
+              {contentsList.map((content, index) => (
+                <option key={index} value={content.name}>
+                  {content.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.inputArea}>
+            <label>記事内容</label>
+            <input 
+              type="text"
+              value={addInputText}
+              onChange={onChangeAddInputText}
+              className={styles.addForm}></input> 
+          </div>
+          <button onClick={handleAddContents} className={styles.addButton}>追加</button>
+        </div>
+      </section>
       {/* カテゴリー表示領域 */}
       <section className={styles.commonArea}>
         <CategoryList
@@ -49,7 +139,7 @@ const Home = () =>  {
       {/* カテゴリーカード表示領域 */}
       <section>
         <CategoryContents 
-          categorys={categorys}
+          categorys={contentsList}
           contentsSelectedTab={contentsSelectedTab}
         />
       </section>
