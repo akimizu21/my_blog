@@ -10,10 +10,14 @@ export interface Contents {
   contents: {
     id: number;
     title: string;
-    text: string
+    text: string;
+    year: number;
+    month: number;
+    day: number;
   }[]; 
 }
 
+const d = new Date()
 
 export const INIT_CONTENTS: Contents[] = [
   {
@@ -23,16 +27,25 @@ export const INIT_CONTENTS: Contents[] = [
         id: 1,
         title: "お金1",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
         id: 2,
         title: "お金2",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
         id: 3,
         title: "お金3",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
     ]
   },
@@ -40,19 +53,28 @@ export const INIT_CONTENTS: Contents[] = [
     name: "仕事",
     contents: [
       {
-        id: 1,
+        id: 4,
         title: "仕事1",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
-        id: 2,
+        id: 5,
         title: "仕事2",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
-        id: 3,
+        id: 6,
         title: "仕事3",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
     ]
   },
@@ -60,19 +82,28 @@ export const INIT_CONTENTS: Contents[] = [
     name: "暮らし",
     contents: [
       {
-        id: 1,
+        id: 7,
         title: "暮らし1",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
-        id: 2,
+        id: 8,
         title: "暮らし2",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
-        id: 3,
+        id: 9,
         title: "暮らし3",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
     ]
   },
@@ -80,19 +111,28 @@ export const INIT_CONTENTS: Contents[] = [
     name: "旅行&グルメ",
     contents: [
       {
-        id: 1,
+        id: 10,
         title: "旅行&グルメ1",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
-        id: 2,
+        id: 11,
         title: "旅行&グルメ2",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
-        id: 3,
+        id: 12,
         title: "旅行&グルメ3",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
     ]
   },
@@ -100,20 +140,34 @@ export const INIT_CONTENTS: Contents[] = [
     name: "趣味",
     contents: [
       {
-        id: 1,
+        id: 13,
         title: "趣味1",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
-        id: 2,
+        id: 14,
         title: "趣味2",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
       {
-        id: 3,
+        id: 15,
         title: "趣味3",
         text:  "テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト テキスト",
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d. getDate(),
       },
     ]
   },
 ];
+
+// 現在の最大IDを取得
+export const INIT_CONTENTS_ID = Math.max(
+  ...INIT_CONTENTS.flatMap(category => category.contents.map(content => content.id))
+);

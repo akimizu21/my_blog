@@ -5,7 +5,7 @@ import Image from "next/image";
 /**
  * data
  */
-import { INIT_CONTENTS } from "./constants/data";
+import { INIT_CONTENTS, INIT_CONTENTS_ID } from "./constants/data";
 /**
  * components
  */
@@ -22,12 +22,22 @@ import styles from "./page.module.css"
 import localImage from "../../public/main_image.png"
 
 const Home = () =>  {
+  // addInputTitle
   const [addInputTitle, setAddInputTitle] = React.useState('');
+  // addInputText
   const [addInputText, setAddInputText] = React.useState('');
+  // contentsSelectedLabel
   const [contentsSelectedLabel, setContentsSelectedLabel] = React.useState("お金");
+  // contentsListの初期値
   const [contentsList, setContentsList] = React.useState(INIT_CONTENTS);
+  // 採番用ID
+  const [uniqueId, setUniqueId] = React.useState(INIT_CONTENTS_ID);
+  // contentsSelectedTab
   const [contentsSelectedTab, setContentsSelectedTab] = React.useState("お金");
+  // newSelectedTab
   const [newSelectedTab, setNewSElectedTab] = React.useState("新着")
+  // 新着記事用のステート
+  const [newestContent, setNewestContent] = React.useState(null);
 
   /**
    * addInputTitle更新処理
@@ -58,10 +68,15 @@ const Home = () =>  {
    */
   const handleAddContents = () => {
     if(addInputTitle !== "" && addInputText !== "") {
+      const nextUniqueId = uniqueId + 1;
+      const d = new Date();
       const newContent = {
-        id: Date.now(),
+        id: nextUniqueId,
         title: addInputTitle,
         text: addInputText,
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d.getDate(),
       };
   
       const updatedContentsList = contentsList.map((category) => {
@@ -75,10 +90,27 @@ const Home = () =>  {
       });
   
       setContentsList(updatedContentsList);
+      // Idをインクリメント
+      setUniqueId(nextUniqueId);
+      // タイトルフォームを初期化
       setAddInputTitle('');
+      // テキストフォームを初期化
       setAddInputText('');
+      console.log(contentsList);
     }
   }
+
+  React.useEffect(() => {
+    const allContents = contentsList.flatMap(category => category.contents);
+
+    // allContentsが空かどうかをチェック
+    if (allContents.length === 0){
+      setNewestContent(null);
+    } else {
+      const latestContent = allContents.reduce((prev, current) => (prev.id > current.id ? prev: current), allContents[0]);
+      setNewestContent(latestContent);
+    }
+  }, [contentsList]);
 
   return (
     <>
@@ -150,8 +182,14 @@ const Home = () =>  {
           <div className={styles.newContesnts}>
             <h3 className={styles.title}>新着記事</h3>
             <Image src={localImage} alt="Contents Image" className={styles.newImage}/>
-            <p className={styles.newTitle}>新着記事</p>
-            <p className={styles.newText}>テキスト テキスト テキスト テキスト テキスト テキスト テキスト </p>
+            {newestContent ? (
+              <>
+                <p className={styles.newTitle}>{newestContent.title}</p>
+                <p className={styles.newText}>{newestContent.text}</p>
+              </>
+            ): (
+              <p className={styles.newText}>新着記事がありません</p>
+            )}
           </div>
           <div className={styles.newpickupArea}>
             <ul className={styles.newpickupTitle}>

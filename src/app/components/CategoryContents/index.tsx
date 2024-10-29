@@ -18,6 +18,9 @@ interface Props {
       id: number;
       title: string;
       text: string;
+      year: number;
+      month: number;
+      day: number;
     }[];
   }[];
   contentsSelectedTab: string;
@@ -42,6 +45,7 @@ export const CategoryContents = (props: Props) => {
                   />
                 </div>
                 <div>
+                  <p className={styles.date}>{content.year}/{content.month}/{content.day}</p>
                   <p className={styles.title}>{content.title}</p>
                   <p className={styles.text}>{content.text}</p>
                 </div>
