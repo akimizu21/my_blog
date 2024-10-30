@@ -5,13 +5,14 @@ import Image from "next/image";
 /**
  * data
  */
-import { INIT_CONTENTS, INIT_CONTENTS_ID } from "./constants/data";
+import { INIT_CONTENTS, INIT_CONTENTS_ID, ContentItem, Contents } from "./constants/data";
 /**
  * components
  */
 import { Header } from "./components/Header";
 import { CategoryList } from "./components/CategoryList";
 import { CategoryContents } from "./components/CategoryContents";
+import { AddContents } from "./components/AddContents";
 /**
  * styles
  */
@@ -36,9 +37,11 @@ const Home = () =>  {
   const [contentsSelectedTab, setContentsSelectedTab] = React.useState("お金");
   // newSelectedTab
   const [newSelectedTab, setNewSElectedTab] = React.useState("新着")
-  // 新着記事用のステート
-  const [newestContent, setNewestContent] = React.useState(null);
-
+  // 最新1件を取得
+  const [newestContent, setNewestContent] = React.useState<ContentItem | null>(null);
+  // 最新3件を取得
+  const [newestContents, setNewestContents] = React.useState<ContentItem[]>([]);
+  
   /**
    * addInputTitle更新処理
    * @param e 
@@ -96,19 +99,24 @@ const Home = () =>  {
       setAddInputTitle('');
       // テキストフォームを初期化
       setAddInputText('');
-      console.log(contentsList);
     }
   }
 
+  /**
+   * 最新記事を取得
+   */
   React.useEffect(() => {
     const allContents = contentsList.flatMap(category => category.contents);
-
     // allContentsが空かどうかをチェック
     if (allContents.length === 0){
       setNewestContent(null);
+      setNewestContents([]);
     } else {
-      const latestContent = allContents.reduce((prev, current) => (prev.id > current.id ? prev: current), allContents[0]);
-      setNewestContent(latestContent);
+      const sortedContents = [...allContents].sort((a, b) => b.id - a.id);
+      // 最新1件
+      setNewestContent(sortedContents[0]);
+      // 最新3件
+      setNewestContents(sortedContents.slice(0, 3));
     }
   }, [contentsList]);
 
@@ -127,39 +135,16 @@ const Home = () =>  {
       </div>
       {/* 記事追加領域 */}
       <section className={styles.commonArea}>
-        <div className={styles.addContents}>
-          <div className={styles.inputArea}>
-            <label>記事タイトル</label>
-            <input 
-              type="text" 
-              value={addInputTitle}
-              onChange={onChangeAddInputTitle}
-              className={styles.addForm}></input> 
-          </div>
-          <div className={styles.inputArea}>
-            <label>カテゴリー</label>
-            <select 
-              value={contentsSelectedLabel}
-              onChange={onChangeContentsSelectedLabel}
-              className={styles.addForm}
-            >
-              {contentsList.map((content, index) => (
-                <option key={index} value={content.name}>
-                  {content.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className={styles.inputArea}>
-            <label>記事内容</label>
-            <input 
-              type="text"
-              value={addInputText}
-              onChange={onChangeAddInputText}
-              className={styles.addForm}></input> 
-          </div>
-          <button onClick={handleAddContents} className={styles.addButton}>追加</button>
-        </div>
+       <AddContents 
+        addInputTitle={addInputTitle}
+        onChangeAddInputTitle={onChangeAddInputTitle}
+        contentsSelectedLabel={contentsSelectedLabel}
+        onChangeContentsSelectedLabel={onChangeContentsSelectedLabel}
+        contentsList={contentsList}
+        addInputText={addInputText}
+        onChangeAddInputText={onChangeAddInputText}
+        handleAddContents={handleAddContents}
+       />
       </section>
       {/* カテゴリー表示領域 */}
       <section className={styles.commonArea}>
@@ -179,6 +164,7 @@ const Home = () =>  {
       <section>
         <h2 className={styles.commonArea}>New</h2>
         <div className={styles.newArea}>
+          {/* 最新1件の記事 */}
           <div className={styles.newContesnts}>
             <h3 className={styles.title}>新着記事</h3>
             <Image src={localImage} alt="Contents Image" className={styles.newImage}/>
@@ -192,6 +178,7 @@ const Home = () =>  {
             )}
           </div>
           <div className={styles.newpickupArea}>
+            {/* 最新3件の記事 */} 
             <ul className={styles.newpickupTitle}>
               <li className={`${styles.title} ${newSelectedTab === "新着" ? styles.active: ""}`} onClick={() => setNewSElectedTab("新着")}>新着</li>
               <li className={`${styles.title} ${newSelectedTab === "おすすめ記事" ? styles.active: ""}`} onClick={() => setNewSElectedTab("おすすめ記事")}>おすすめ記事</li>
@@ -199,27 +186,15 @@ const Home = () =>  {
             <div>
               {newSelectedTab === "新着" && (
                 <>
-                  <div className={styles.contents}>
-                    <div className={styles.contentsInfo}>
-                      <p>2024-10-19</p>
-                      <p>お金</p>
+                  {newestContents.map((content) => (
+                    <div key={content.id} className={styles.contents}>
+                      <div className={styles.contentsInfo}>
+                        <p>{`${content.year}/${content.month}/${content.day}`}</p>
+                        <p>{content.title}</p>
+                      </div>
+                      <p className={styles.contentsTitle}>{content.text} </p>
                     </div>
-                    <p className={styles.contentsTitle}>新着記事です 新着記事です 新着記事です 新着記事です 新着記事です 新着記事です </p>
-                  </div>
-                  <div className={styles.contents}>
-                    <div className={styles.contentsInfo}>
-                      <p>2024-10-19</p>
-                      <p>お金</p>
-                    </div>
-                    <p className={styles.contentsTitle}>新着記事です 新着記事です 新着記事です 新着記事です 新着記事です 新着記事です </p>
-                  </div>
-                  <div className={styles.contents}>
-                    <div className={styles.contentsInfo}>
-                      <p>2024-10-19</p>
-                      <p>お金</p>
-                    </div>
-                    <p className={styles.contentsTitle}>新着記事です 新着記事です 新着記事です 新着記事です 新着記事です 新着記事です </p>
-                  </div>
+                  ))}
                 </>
               )}
               {newSelectedTab === "おすすめ記事" && (

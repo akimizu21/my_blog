@@ -5,16 +5,18 @@
 /**
  * INIT_CATEGORYSの型定義
  */
+export interface ContentItem {
+  id: number;
+  title: string;
+  text: string;
+  year: number;
+  month: number;
+  day: number;
+}
+
 export interface Contents {
   name: string;
-  contents: {
-    id: number;
-    title: string;
-    text: string;
-    year: number;
-    month: number;
-    day: number;
-  }[]; 
+  contents: ContentItem[]; 
 }
 
 const d = new Date()

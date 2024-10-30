@@ -1,0 +1,21 @@
+/* AddContents領域 */
+.addContents {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+}
+
+.inputArea {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.addForm {
+  padding: 4px;
+}
+
+.addButton {
+  width: 64px;
+  cursor: pointer;
+}
