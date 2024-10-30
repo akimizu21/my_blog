@@ -13,6 +13,7 @@ import { Header } from "./components/Header";
 import { CategoryList } from "./components/CategoryList";
 import { CategoryContents } from "./components/CategoryContents";
 import { AddContents } from "./components/AddContents";
+import { NewContens } from "./components/NewContents";
 /**
  * styles
  */
@@ -41,6 +42,8 @@ const Home = () =>  {
   const [newestContent, setNewestContent] = React.useState<ContentItem | null>(null);
   // 最新3件を取得
   const [newestContents, setNewestContents] = React.useState<ContentItem[]>([]);
+  // おすすめ記事を取得
+  const [recommendContents, setRecommendContents] = React.useState<ContentItem[]>([]);
   
   /**
    * addInputTitle更新処理
@@ -120,6 +123,19 @@ const Home = () =>  {
     }
   }, [contentsList]);
 
+  React.useEffect(() => {
+    const allContents = contentsList.flatMap(category => category.contents);
+    // allContentsが空かどうかをチェック
+    if (allContents.length === 0){
+      setRecommendContents([]);
+    } else {
+      const selectedContents = allContents
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+      setRecommendContents(selectedContents)
+    }
+  }, [contentsList]);
+
   return (
     <>
       {/* Header領域 */}
@@ -161,70 +177,14 @@ const Home = () =>  {
         />
       </section>
       {/* New表示領域 */}
-      <section>
-        <h2 className={styles.commonArea}>New</h2>
-        <div className={styles.newArea}>
-          {/* 最新1件の記事 */}
-          <div className={styles.newContesnts}>
-            <h3 className={styles.title}>新着記事</h3>
-            <Image src={localImage} alt="Contents Image" className={styles.newImage}/>
-            {newestContent ? (
-              <>
-                <p className={styles.newTitle}>{newestContent.title}</p>
-                <p className={styles.newText}>{newestContent.text}</p>
-              </>
-            ): (
-              <p className={styles.newText}>新着記事がありません</p>
-            )}
-          </div>
-          <div className={styles.newpickupArea}>
-            {/* 最新3件の記事 */} 
-            <ul className={styles.newpickupTitle}>
-              <li className={`${styles.title} ${newSelectedTab === "新着" ? styles.active: ""}`} onClick={() => setNewSElectedTab("新着")}>新着</li>
-              <li className={`${styles.title} ${newSelectedTab === "おすすめ記事" ? styles.active: ""}`} onClick={() => setNewSElectedTab("おすすめ記事")}>おすすめ記事</li>
-            </ul>
-            <div>
-              {newSelectedTab === "新着" && (
-                <>
-                  {newestContents.map((content) => (
-                    <div key={content.id} className={styles.contents}>
-                      <div className={styles.contentsInfo}>
-                        <p>{`${content.year}/${content.month}/${content.day}`}</p>
-                        <p>{content.title}</p>
-                      </div>
-                      <p className={styles.contentsTitle}>{content.text} </p>
-                    </div>
-                  ))}
-                </>
-              )}
-              {newSelectedTab === "おすすめ記事" && (
-                <>
-                  <div className={styles.contents}>
-                    <div className={styles.contentsInfo}>
-                      <p>2024-10-19</p>
-                      <p>お金</p>
-                    </div>
-                    <p className={styles.contentsTitle}>おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です  </p>
-                  </div>
-                  <div className={styles.contents}>
-                    <div className={styles.contentsInfo}>
-                      <p>2024-10-19</p>
-                      <p>お金</p>
-                    </div>
-                    <p className={styles.contentsTitle}>おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です  </p>
-                  </div>
-                  <div className={styles.contents}>
-                    <div className={styles.contentsInfo}>
-                      <p>2024-10-19</p>
-                      <p>お金</p>
-                    </div>
-                    <p className={styles.contentsTitle}>おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です おすすめ記事です  </p>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+      <section className={styles.commonArea}>
+       <NewContens 
+        newestContent={newestContent}
+        newSelectedTab={newSelectedTab}
+        setNewSElectedTab={setNewSElectedTab}
+        newestContents={newestContents}
+        recommendContents={recommendContents}
+      />
       </section>
     </>
   );
